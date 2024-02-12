@@ -1,5 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,Depends
+from sqlalchemy.orm import Session
 import api.schemas.task as task_schema
+import api.cruds.task as task_crud
+from api.db import get_db
 router = APIRouter()
 
 
@@ -17,10 +20,8 @@ async def list_tasks():
 
 # タスクの作成
 @router.post("/tasks",response_model=task_schema.TaskCreateResponse)
-async def create_task(task_body:task_schema.TaskCreate):
-    print(task_body)
-    return task_schema.TaskCreateResponse(id=1,**task_body.dict())
-
+async def create_task(task_body: task_schema.TaskCreate, db: Session = Depends(get_db)):
+    return task_crud.create_task(db, task_body)
 
 # タスクの編集
 @router.put("/tasks/{task_id}",response_model=task_schema.TaskCreateResponse)
