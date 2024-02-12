@@ -8,20 +8,25 @@ router = APIRouter()
 
 # タスクの一覧表示
 @router.get("/tasks",response_model=list[task_schema.Task])
-async def list_tasks():
+async def list_tasks(db: Session = Depends(get_db)):
+    task_list = task_crud.get_task_with_done(db)
+    return task_list
 
-    return [
-        task_schema.Task(id=1,title="seoの勉強をする"),
-        task_schema.Task(id=2,title="fastapiの勉強をする"),
-        task_schema.Task(id=3,title="情報セキュリティーマネジメントの勉強をする"),
-        task_schema.Task(id=4,title="基本情報技術者試験の勉強をする"),
-        task_schema.Task(id=5,title="fastapiの勉強をする"),
-    ]
+# async def list_tasks():
+
+#     return [
+#         task_schema.Task(id=1,title="seoの勉強をする"),
+#         task_schema.Task(id=2,title="fastapiの勉強をする"),
+#         task_schema.Task(id=3,title="情報セキュリティーマネジメントの勉強をする"),
+#         task_schema.Task(id=4,title="基本情報技術者試験の勉強をする"),
+#         task_schema.Task(id=5,title="fastapiの勉強をする"),
+#     ]
 
 # タスクの作成
 @router.post("/tasks",response_model=task_schema.TaskCreateResponse)
 async def create_task(task_body: task_schema.TaskCreate, db: Session = Depends(get_db)):
-    return task_crud.create_task(db, task_body)
+    task = task_crud.create_task(db, task_body)
+    return task
 
 # タスクの編集
 @router.put("/tasks/{task_id}",response_model=task_schema.TaskCreateResponse)

@@ -19,6 +19,6 @@ class Done(Base):
     # relationship はテーブル
     # モデルクラス）同士の関係性を定義します。
     # これにより、 Task オブジェクトから Done オブジェクトを参照したり、
-    # その逆が可能になります
+    # その逆が可能になる
     
     task = relationship("Task", back_populates="done")
