@@ -15,10 +15,5 @@ class Task(Base):
 class Done(Base):
     __tablename__ = "dones"
 
-    id = Column(Integer, ForeignKey("tasks.id"), primary_key=True)
-    # relationship はテーブル
-    # モデルクラス）同士の関係性を定義します。
-    # これにより、 Task オブジェクトから Done オブジェクトを参照したり、
-    # その逆が可能になる
-    
+    id = Column(Integer, ForeignKey("tasks.id"), primary_key=True)    
     task = relationship("Task", back_populates="done")

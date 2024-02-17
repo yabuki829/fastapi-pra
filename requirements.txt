@@ -4,3 +4,4 @@ uvicorn[standard]
 pymysql
 sqlalchemy
 alembic
+aiomysql
